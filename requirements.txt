@@ -1,5 +1,5 @@
 opencv_python_headless==4.5.2.54
-streamlit==0.82.0
+streamlit
 numpy==1.19.3
 streamlit-webrtc
 pyarrow

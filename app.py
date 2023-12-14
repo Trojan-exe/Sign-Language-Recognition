@@ -4,13 +4,28 @@ import av
 import cv2
 import mediapipe as mp
 import numpy as np
+import glob
 
-st.title("My first Streamlit app")
+st.set_page_config(page_title="Sign Language Recognition", page_icon = "logo2.png", layout = "wide", initial_sidebar_state = "expanded") 
+st.title("Sign Language Recognition")
 
+if 'images' not in st.session_state:
+    st.session_state.images = glob.glob('images/*.jpg')
 
+with st.sidebar:
+    st.title("Gestures For Characters")
+    rows = [st.columns(3) for _ in range(9)]
+    cols = [column for row in rows for column in row]
+    for col, Image in zip(cols, st.session_state.images):
+        col.image(Image)
+
+class originalVideoProcessor:
+    def recv(self, frame):
+        img=frame.to_ndarray(format="bgr24")
+        return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 class VideoProcessor:
-    def __init__(self):
+    def __init__(self):  
       self.mpHands=mp.solutions.hands
       self.hands=self.mpHands.Hands(max_num_hands=1)
       self.mpDraw=mp.solutions.drawing_utils
@@ -39,13 +54,27 @@ class VideoProcessor:
         return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 
+col1, col2 = st.columns(2)
+with col2:
+    ctx = webrtc_streamer(
+        key="example",
+        video_processor_factory=VideoProcessor,
+        rtc_configuration={  
+            "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+        }
+    )
+
+with col1:
+    ctx2 = webrtc_streamer(
+        key="example2",
+        video_processor_factory=originalVideoProcessor,
+        rtc_configuration={  
+            "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+        }
+    )
 
 
+col1.metric("Present Character", value = "A")
+col1.subheader("Complete Sentence")
+col1.text("Welcome! to the world of Sign Language")
 
-ctx = webrtc_streamer(
-    key="example",
-    video_processor_factory=VideoProcessor,
-    rtc_configuration={  # Add this line
-        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-    }
-)
