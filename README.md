@@ -11,6 +11,8 @@ A real-time sign language translator is required for facilitating communication 
 
 [Streamlit Framework](https://streamlit.io/) is used to develop web-application which captures real-time video of user through web-cam of a device and processes input video stream frame-by-frame and tries to recognise hand gestures using CNN model. After recognition of a hand gesture, recognized characters are shown on end-users screen in real-time.
 
+![Demo](/Presentation/Images%20for%20presentation/Demo2.gif)
+
 ## Tools Used
 1. Python
 1. OpenCV 
