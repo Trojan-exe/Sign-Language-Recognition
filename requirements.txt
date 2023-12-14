@@ -1,6 +1,6 @@
-opencv_python_headless==4.5.2.54
-streamlit
-numpy==1.19.3
+opencv-python-headless
+streamlit==1.4.0
+numpy
 streamlit-webrtc
-pyarrow
 mediapipe
+tensorflow
